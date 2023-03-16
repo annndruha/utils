@@ -1,0 +1,44 @@
+#!/bin/sh
+
+echo ---Dirty guard hook start---
+
+#if ! command -v python &> /dev/null
+#then
+#    python3 dirt_rejecter.py
+#    ret=$?
+#    if [ $ret -ne 0 ]; then
+#        exit $ret
+#    fi
+#else
+#    python dirt_rejecter.py
+#    ret=$?
+#    if [ $ret -ne 0 ]; then
+#        exit $ret
+#    fi
+#fi
+
+
+
+
+#!/bin/sh
+
+result=0
+while read FILE
+do
+    if [[ -f $FILE ]]; then
+        if [[ "$FILE" =~ ^.+(ipynb)$ ]]; then
+            python3 dirt_rejecter.py --filepath "$FILE"
+            if [ $? -ne 0 ]; then
+                result=1
+            fi
+    fi
+done <<EOT
+    $(git diff --cached --name-only)
+EOT
+
+if [ $result -ne 0 ]; then
+    echo "Aborting commit due to files with syntax errors" >&2
+    exit $result
+fi
+
+echo ---Dirty guard hook ended---
