@@ -2,7 +2,6 @@
 #include <string>
 #include "luhn.h"
 #include "sha1.hpp"
-#include "vector"
 #include <algorithm>
 #include <cctype>
 #include "sha1_to_check.h"
@@ -53,7 +52,10 @@ int main() {
         }
 
         control_digit = to_string(luhn_alg(known_bin + number)); // Get last digit
-        card = known_bin + number + control_digit; // Full card number
+        // Full card number
+        card = known_bin;
+        card.append(number);
+        card.append(control_digit);
 
 
         sha1.update(card);
