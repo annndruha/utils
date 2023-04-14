@@ -1,4 +1,6 @@
 echo Welcome to andrey cool script!
+sh backup_statistic.sh
+
 iplastdigit=$(grep -c Peer wg0.conf)
 ld="$(($iplastdigit + 2))"
 echo Current clients= ${iplastdigit}

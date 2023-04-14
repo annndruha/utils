@@ -1,4 +1,5 @@
-filestat="statistic.txt"
+filestat="stat_$(date +%F__%H-%M-%S).txt"
+
 wg show > ${filestat}
 
 sed -i "s*peer: **" $filestat
@@ -18,5 +19,3 @@ while read line; do
 	n=$((n+1))
 done < clients/$filename
 done
-cat ${filestat}
-rm ${filestat}
